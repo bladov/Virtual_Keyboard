@@ -1,8 +1,11 @@
 const body = document.querySelector('body');
 const container = document.createElement('div');
 container.classList.add('container');
+
 container.innerHTML = `<header class="header">Virtual Keyboard</header>
                       <textarea name="" id="text" cols="30" rows="10"></textarea>
+                      <div class="language">Change language: Shift + Alt</div>
+                      <div class="color">Change Color: <input type="color" name="color" id="color"></div>
                       <div class="Keyboard__wrapper">
                         <div class="Keyboard__keys">
                           <div class="Keyboard__row">
@@ -58,7 +61,7 @@ container.innerHTML = `<header class="header">Virtual Keyboard</header>
                             <div class="key" data-event-code="KeyZ">Z</div>
                             <div class="key" data-event-code="KeyX">X</div>
                             <div class="key" data-event-code="KeyC">C</div>
-                            <div class="key">V</div>
+                            <div class="key key_bef">V</div>
                             <div class="key">B</div>
                             <div class="key">N</div>
                             <div class="key">M</div>
@@ -90,54 +93,93 @@ const key = document.querySelectorAll('.key');
 const keyWrapper = {
   Backquote: {
     code: 'Backquote',
+    changeable: true,
+    keyNormal: '`',
+    keySpec: '~',
   },
 
   Digit1: {
     code: 'Digit1',
+    changeable: true,
+    keyNormal: '1',
+    keySpec: '!',
   },
 
   Digit2: {
     code: 'Digit2',
+    changeable: true,
+    keyNormal: '2',
+    keySpec: '@',
   },
 
   Digit3: {
     code: 'Digit3',
+    changeable: true,
+    keyNormal: '3',
+    keySpec: '#',
   },
 
   Digit4: {
     code: 'Digit4',
+    changeable: true,
+    keyNormal: '4',
+    keySpec: '$',
   },
 
   Digit5: {
     code: 'Digit5',
+    changeable: true,
+    keyNormal: '5',
+    keySpec: '%',
   },
 
   Digit6: {
     code: 'Digit6',
+    changeable: true,
+    keyNormal: '6',
+    keySpec: '^',
   },
 
   Digit7: {
     code: 'Digit7',
+    changeable: true,
+    keyNormal: '7',
+    keySpec: '&',
   },
 
   Digit8: {
     code: 'Digit8',
+    changeable: true,
+    keyNormal: '8',
+    keySpec: '*',
   },
 
   Digit9: {
     code: 'Digit9',
+    changeable: true,
+    keyNormal: '9',
+    keySpec: '(',
   },
 
   Digit0: {
     code: 'Digit0',
+    changeable: true,
+    keyNormal: '0',
+    keySpec: ')',
   },
 
   Minus: {
     code: 'Minus',
+    changeable: true,
+    keyNormal: '-',
+    keySpec: '_',
   },
 
   Equal: {
     code: 'Equal',
+    changeable: true,
+    keyNormal: '=',
+    keySpec: '+',
   },
 
   Backspace: {
@@ -150,54 +192,93 @@ const keyWrapper = {
 
   KeyQ: {
     code: 'KeyQ',
+    changeableRu: true,
+    keyEn: 'Q',
+    keyRu: 'Й',
   },
 
   KeyW: {
     code: 'KeyW',
+    changeableRu: true,
+    keyEn: 'W',
+    keyRu: 'Ц',
   },
 
   KeyE: {
     code: 'KeyE',
+    changeableRu: true,
+    keyEn: 'E',
+    keyRu: 'У',
   },
 
   KeyR: {
     code: 'KeyR',
+    changeableRu: true,
+    keyEn: 'R',
+    keyRu: 'К',
   },
 
   KeyT: {
     code: 'KeyT',
+    changeableRu: true,
+    keyEn: 'T',
+    keyRu: 'Е',
   },
 
   KeyY: {
     code: 'KeyY',
+    changeableRu: true,
+    keyEn: 'Y',
+    keyRu: 'Н',
   },
 
   KeyU: {
     code: 'KeyU',
+    changeableRu: true,
+    keyEn: 'U',
+    keyRu: 'Г',
   },
 
   KeyI: {
     code: 'KeyI',
+    changeableRu: true,
+    keyEn: 'I',
+    keyRu: 'Ш',
   },
 
   KeyO: {
     code: 'KeyO',
+    changeableRu: true,
+    keyEn: 'O',
+    keyRu: 'Щ',
   },
 
   KeyP: {
     code: 'KeyP',
+    changeableRu: true,
+    keyEn: 'P',
+    keyRu: 'З',
   },
 
   BracketLeft: {
     code: 'BracketLeft',
+    changeable: true,
+    keyNormal: '[',
+    keySpec: '{',
   },
 
   BracketRight: {
     code: 'BracketRight',
+    changeable: true,
+    keyNormal: ']',
+    keySpec: '}',
   },
 
   Backslash: {
     code: 'Backslash',
+    changeable: true,
+    keyNormal: '&#92;',
+    keySpec: '|',
   },
 
   Delete: {
@@ -210,46 +291,79 @@ const keyWrapper = {
 
   KeyA: {
     code: 'KeyA',
+    changeableRu: true,
+    keyEn: 'A',
+    keyRu: 'Ф',
   },
 
   KeyS: {
     code: 'KeyS',
+    changeableRu: true,
+    keyEn: 'S',
+    keyRu: 'Ы',
   },
 
   KeyD: {
     code: 'KeyD',
+    changeableRu: true,
+    keyEn: 'D',
+    keyRu: 'В',
   },
 
   KeyF: {
     code: 'KeyF',
+    changeableRu: true,
+    keyEn: 'F',
+    keyRu: 'А',
   },
 
   KeyG: {
     code: 'KeyG',
+    changeableRu: true,
+    keyEn: 'G',
+    keyRu: 'П',
   },
 
   KeyH: {
     code: 'KeyH',
+    changeableRu: true,
+    keyEn: 'H',
+    keyRu: 'Р',
   },
 
   KeyJ: {
     code: 'KeyJ',
+    changeableRu: true,
+    keyEn: 'J',
+    keyRu: 'О',
   },
 
   KeyK: {
     code: 'KeyK',
+    changeableRu: true,
+    keyEn: 'K',
+    keyRu: 'Л',
   },
 
   KeyL: {
     code: 'KeyL',
+    changeableRu: true,
+    keyEn: 'L',
+    keyRu: 'Д',
   },
 
   Semicolon: {
     code: 'Semicolon',
+    changeable: true,
+    keyNormal: ';',
+    keySpec: ':',
   },
 
   Quote: {
     code: 'Quote',
+    changeable: true,
+    keyNormal: "'",
+    keySpec: '"',
   },
 
   Enter: {
@@ -262,42 +376,72 @@ const keyWrapper = {
 
   KeyZ: {
     code: 'KeyZ',
+    changeableRu: true,
+    keyEn: 'Z',
+    keyRu: 'Я',
   },
 
   KeyX: {
     code: 'KeyX',
+    changeableRu: true,
+    keyEn: 'X',
+    keyRu: 'Ч',
   },
 
   KeyC: {
     code: 'KeyC',
+    changeableRu: true,
+    keyEn: 'C',
+    keyRu: 'С',
   },
 
   KeyV: {
     code: 'KeyC',
+    changeableRu: true,
+    keyEn: 'V',
+    keyRu: 'М',
   },
 
   KeyB: {
     code: 'KeyC',
+    changeableRu: true,
+    keyEn: 'B',
+    keyRu: 'И',
   },
 
   KeyN: {
     code: 'KeyN',
+    changeableRu: true,
+    keyEn: 'N',
+    keyRu: 'Т',
   },
 
   KeyM: {
     code: 'KeyM',
+    changeableRu: true,
+    keyEn: 'M',
+    keyRu: 'Ь',
   },
 
   Comma: {
     code: 'Comma',
+    changeableRu: true,
+    keyEn: ',',
+    keyRu: 'Б',
   },
 
   Period: {
     code: 'Period',
+    changeableRu: true,
+    keyEn: '.',
+    keyRu: 'Ю',
   },
 
   Slash: {
     code: 'Slash',
+    changeable: true,
+    keyNormal: '/',
+    keySpec: '?',
   },
 
   ArrowUp: {
@@ -345,11 +489,6 @@ const keyWrapper = {
   },
 };
 
-// for (let i = 0; i < 10; i += 1) {
-//   const codeKey = key[i].innerHTML;
-//   key[i].setAttribute('data-code-key', `${keyWrapper[codeKey].code}`);
-// }
-
 function addPosition() {
   let zero = 0;
 
@@ -365,9 +504,103 @@ addPosition();
 document.addEventListener('keydown', (e) => {
   const btnKey = key[keyWrapper[e.code].position];
   btnKey.classList.add('active');
+
+  if (e.code === 'ShiftLeft') {
+    Object.keys(keyWrapper).forEach((item) => {
+      if (keyWrapper[item].changeable === true) {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keySpec;
+      }
+    });
+  }
 });
 
 document.addEventListener('keyup', (e) => {
   const btnKey = key[keyWrapper[e.code].position];
   btnKey.classList.remove('active');
+
+  if (e.code === 'ShiftLeft') {
+    Object.keys(keyWrapper).forEach((item) => {
+      if (keyWrapper[item].changeable === true) {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyNormal;
+      }
+    });
+  }
 });
+
+// change lng----------------------------------------------------------------==========
+let languageRu = false;
+
+function runOnKeys(func, ...codes) {
+  const pressed = new Set();
+
+  document.addEventListener('keydown', (event) => {
+    pressed.add(event.code);
+
+    for (let i = 0; i < codes.length; i += 1) {
+      if (!pressed.has(codes[i])) {
+        return;
+      }
+    }
+
+    pressed.clear();
+
+    func();
+  });
+
+  document.addEventListener('keyup', (event) => {
+    pressed.delete(event.code);
+  });
+}
+
+function swapLang() {
+  Object.keys(keyWrapper).forEach((item) => {
+    if (keyWrapper[item].changeableRu === true) {
+      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
+      keyWrapper[item].changeableRu = false;
+    } else if (keyWrapper[item].changeableRu === false) {
+      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyEn;
+      keyWrapper[item].changeableRu = true;
+    }
+  });
+
+  languageRu = !languageRu;
+  if (languageRu) {
+    localStorage.setItem('ru', languageRu);
+  } else {
+    localStorage.clear();
+  }
+  // localStorage.setItem('ru', languageRu);
+}
+
+runOnKeys(() => swapLang(), 'ShiftLeft', 'AltLeft');
+
+if (localStorage.getItem('ru')) {
+  Object.keys(keyWrapper).forEach((item) => {
+    if (keyWrapper[item].changeableRu === true) {
+      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
+      keyWrapper[item].changeableRu = false;
+    }
+  });
+} else {
+  swapLang();
+}
+// change lng end---------------------------------------------------------------==========
+
+const text = document.querySelector('#text');
+const keyContainer = document.querySelector('.Keyboard__keys');
+
+keyContainer.addEventListener('click', (e) => {
+  const target = e.target;
+  text.value += target.textContent;
+});
+
+//  change color
+const changeColor = document.querySelector('#color');
+
+changeColor.addEventListener('input', () => {
+  key.forEach((item, pos) => {
+    key[pos].style.borderColor = changeColor.value;
+    key[pos].style.backgroundColor = changeColor.value;
+  });
+});
+//  chenge color end
