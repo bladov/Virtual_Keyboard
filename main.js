@@ -528,7 +528,6 @@ document.addEventListener('keyup', (e) => {
 });
 
 // change lng----------------------------------------------------------------==========
-let languageRu = false;
 
 function runOnKeys(func, ...codes) {
   const pressed = new Set();
@@ -563,13 +562,11 @@ function swapLang() {
     }
   });
 
-  languageRu = !languageRu;
-  if (languageRu) {
-    localStorage.setItem('ru', languageRu);
+  if (!localStorage.getItem('ru')) {
+    localStorage.setItem('ru', 'true');
   } else {
     localStorage.clear();
   }
-  // localStorage.setItem('ru', languageRu);
 }
 
 runOnKeys(() => swapLang(), 'ShiftLeft', 'AltLeft');
@@ -579,10 +576,11 @@ if (localStorage.getItem('ru')) {
     if (keyWrapper[item].changeableRu === true) {
       key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
       keyWrapper[item].changeableRu = false;
+    } else if (keyWrapper[item].changeableRu === false) {
+      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyEn;
+      keyWrapper[item].changeableRu = true;
     }
   });
-} else {
-  swapLang();
 }
 // change lng end---------------------------------------------------------------==========
 
