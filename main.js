@@ -3,7 +3,7 @@ const container = document.createElement('div');
 container.classList.add('container');
 
 container.innerHTML = `<header class="header">Virtual Keyboard</header>
-                      <textarea class="text" name="" id="text" cols="50" rows="10"></textarea>
+                      <textarea class="text" name="" id="text" cols="50" rows="10" autofocus></textarea>
                       <div class="language">Change language: Shift + Alt</div>
                       <div class="color">Change Color: <input type="color" name="color" id="color"></div>
                       <div class="Keyboard__wrapper">
@@ -533,6 +533,16 @@ document.addEventListener('keydown', (e) => {
   }
 
   if (e.code === 'Tab') {
+    const pos = textArea.selectionStart;
+    const result = textArea.value.split('');
+    result.splice(pos, 0, '  ');
+    textArea.value = result.join('');
+    textArea.selectionStart = pos + 2;
+    textArea.selectionEnd = pos + 2;
+    e.preventDefault();
+  }
+
+  if (e.code === 'AltLeft' || e.code === 'AltRight') {
     e.preventDefault();
   }
 });
@@ -623,11 +633,97 @@ keyContainer.addEventListener('mousedown', (event) => {
   if (!target) return;
   if (!keyContainer.contains(keyContainer)) return;
 
+  const atributeName = target.dataset.codeKey;
+  if (atributeName === 'Enter' || atributeName === 'ArrowRight' || atributeName === 'Tab' || atributeName === 'ArrowLeft' || atributeName === 'ArrowUp' || atributeName === 'ArrowDown') {
+    textArea.dispatchEvent(new Event('blur'));
+  }
+
   target.classList.add('active');
-  const targetName = keyWrapper[target.dataset.codeKey];
+  const targetName = keyWrapper[atributeName];
   if (targetName.changeableRu || targetName.changeable) {
-    textArea.focus();
-    textArea.value += target.textContent;
+    const pos = textArea.selectionStart;
+    const result = textArea.value.split('');
+    result.splice(pos, 0, target.textContent);
+    textArea.value = result.join('');
+    textArea.selectionStart = pos + 1;
+    textArea.selectionEnd = pos + 1;
+  }
+
+  if (atributeName === 'Backspace') {
+    const pos = textArea.selectionStart;
+    if (textArea.selectionStart !== textArea.selectionEnd) {
+      const result = textArea.value.split('');
+      result.splice(pos, textArea.selectionEnd - pos);
+      textArea.value = result.join('');
+      textArea.selectionStart = pos;
+      textArea.selectionEnd = pos;
+      return;
+    }
+    if (!pos) return;
+    const result = textArea.value.split('');
+    result.splice(pos - 1, 1);
+    textArea.value = result.join('');
+    textArea.selectionStart = pos - 1;
+    textArea.selectionEnd = pos - 1;
+  }
+
+  if (atributeName === 'Delete') {
+    const pos = textArea.selectionStart;
+    const result = textArea.value.split('');
+    result.splice(pos, 1);
+    textArea.value = result.join('');
+    textArea.selectionStart = pos;
+    textArea.selectionEnd = pos;
+  }
+
+  if (atributeName === 'ArrowLeft') {
+    textArea.selectionStart -= 1;
+    textArea.selectionEnd = textArea.selectionStart;
+  }
+
+  if (atributeName === 'ArrowRight') {
+    textArea.selectionStart += 1;
+    textArea.selectionEnd = textArea.selectionStart;
+  }
+
+  if (atributeName === 'Space') {
+    const pos = textArea.selectionStart;
+    const result = textArea.value.split('');
+    result.splice(pos, 0, ' ');
+    textArea.value = result.join('');
+    textArea.selectionStart = pos + 1;
+    textArea.selectionEnd = pos + 1;
+  }
+
+  if (atributeName === 'Tab') {
+    const pos = textArea.selectionStart;
+    const result = textArea.value.split('');
+    result.splice(pos, 0, '  ');
+    textArea.value = result.join('');
+    textArea.selectionStart = pos + 2;
+    textArea.selectionEnd = pos + 2;
+  }
+
+  if (atributeName === 'CapsLock') {
+    Object.keys(keyWrapper).forEach((item) => {
+      if (keyWrapper[item].changeableRu === true) {
+        const lowerKey = key[keyWrapper[item].position];
+        if (lowerKey.textContent.toUpperCase() === lowerKey.textContent) {
+          lowerKey.textContent = lowerKey.textContent.toLowerCase();
+        } else {
+          lowerKey.textContent = lowerKey.textContent.toUpperCase();
+        }
+      }
+    });
+  }
+
+  if (atributeName === 'Enter') {
+    const pos = textArea.selectionStart;
+    const result = textArea.value.split('');
+    result.splice(pos, 0, '\n');
+    textArea.value = result.join('');
+    textArea.selectionStart = pos + 1;
+    textArea.selectionEnd = pos + 1;
   }
 });
 
@@ -645,4 +741,8 @@ keyContainer.addEventListener('mouseout', (event) => {
   if (!keyContainer.contains(keyContainer)) return;
 
   target.classList.remove('active');
+});
+
+textArea.addEventListener('blur', () => {
+  textArea.focus();
 });
