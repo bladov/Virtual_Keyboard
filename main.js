@@ -89,6 +89,7 @@ container.innerHTML = `<header class="header">Virtual Keyboard</header>
 body.prepend(container);
 
 const key = document.querySelectorAll('.key');
+const textArea = document.querySelector('#text');
 
 const keyWrapper = {
   Backquote: {
@@ -512,6 +513,23 @@ document.addEventListener('keydown', (e) => {
       }
     });
   }
+
+  if (e.code === 'Enter' || e.code === 'ArrowRight' || e.code === 'Tab' || e.code === 'ArrowLeft' || e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+    textArea.focus();
+  }
+
+  if (e.code === 'CapsLock') {
+    Object.keys(keyWrapper).forEach((item) => {
+      if (keyWrapper[item].changeableRu === true) {
+        const lowerKey = key[keyWrapper[item].position];
+        if (lowerKey.textContent.toUpperCase() === lowerKey.textContent) {
+          lowerKey.textContent = lowerKey.textContent.toLowerCase();
+        } else {
+          lowerKey.textContent = lowerKey.textContent.toUpperCase();
+        }
+      }
+    });
+  }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -584,15 +602,7 @@ if (localStorage.getItem('ru')) {
 }
 // change lng end---------------------------------------------------------------==========
 
-const text = document.querySelector('#text');
-const keyContainer = document.querySelector('.Keyboard__keys');
-
-keyContainer.addEventListener('click', (e) => {
-  const target = e.target;
-  text.value += target.textContent;
-});
-
-//  change color
+//  change color------------------------------------------------
 const changeColor = document.querySelector('#color');
 
 changeColor.addEventListener('input', () => {
@@ -601,4 +611,28 @@ changeColor.addEventListener('input', () => {
     key[pos].style.backgroundColor = changeColor.value;
   });
 });
-//  chenge color end
+//  chenge color end ---------------------------------------
+
+// textArea.addEventListener('keydown', (e) => {
+//   console.log(e.code);
+// });
+
+// key[17].addEventListener('click', (e) => {
+//   textArea.focus();
+//   textArea.dispatchEvent(new KeyboardEvent('keydown', {
+//     key: 'e',
+//     keyCode: 69, // example values.
+//     code: 'KeyE', // put everything you need in this object.
+//     which: 69,
+//     shiftKey: false, // you don't need to include values
+//     ctrlKey: false, // if you aren't going to use them.
+//     metaKey: false, // these are here for example's sake.
+//   }));
+
+//   textArea.value += key[17].textContent;
+// });
+
+key[17].addEventListener('click', (e) => {
+  textArea.focus();
+  textArea.value += key[17].textContent;
+});

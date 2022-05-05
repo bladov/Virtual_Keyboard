@@ -4,6 +4,7 @@
 
 body {
     background-color: rgb(43 42 48);
+    font-weight: bold;
 }
 
 .container {
@@ -42,8 +43,8 @@ body {
   align-items: center;
   transition: .2s;
 
-  border: 7px outset yellow;
-  background-color: yellow;
+  border: 7px outset rgb(228, 231, 75);
+  background-color: rgb(228, 231, 75);
   box-shadow: 2px 1px 4px 2px;
   text-shadow: 1px 1px 2px white;
 }
