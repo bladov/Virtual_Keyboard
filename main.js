@@ -3,7 +3,7 @@ const container = document.createElement('div');
 container.classList.add('container');
 
 container.innerHTML = `<header class="header">Virtual Keyboard</header>
-                      <textarea name="" id="text" cols="30" rows="10"></textarea>
+                      <textarea class="text" name="" id="text" cols="50" rows="10"></textarea>
                       <div class="language">Change language: Shift + Alt</div>
                       <div class="color">Change Color: <input type="color" name="color" id="color"></div>
                       <div class="Keyboard__wrapper">
@@ -90,6 +90,7 @@ body.prepend(container);
 
 const key = document.querySelectorAll('.key');
 const textArea = document.querySelector('#text');
+const keyContainer = document.querySelector('.Keyboard__keys');
 
 const keyWrapper = {
   Backquote: {
@@ -530,6 +531,10 @@ document.addEventListener('keydown', (e) => {
       }
     });
   }
+
+  if (e.code === 'Tab') {
+    e.preventDefault();
+  }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -613,26 +618,31 @@ changeColor.addEventListener('input', () => {
 });
 //  chenge color end ---------------------------------------
 
-// textArea.addEventListener('keydown', (e) => {
-//   console.log(e.code);
-// });
+keyContainer.addEventListener('mousedown', (event) => {
+  const target = event.target.closest('.key');
+  if (!target) return;
+  if (!keyContainer.contains(keyContainer)) return;
 
-// key[17].addEventListener('click', (e) => {
-//   textArea.focus();
-//   textArea.dispatchEvent(new KeyboardEvent('keydown', {
-//     key: 'e',
-//     keyCode: 69, // example values.
-//     code: 'KeyE', // put everything you need in this object.
-//     which: 69,
-//     shiftKey: false, // you don't need to include values
-//     ctrlKey: false, // if you aren't going to use them.
-//     metaKey: false, // these are here for example's sake.
-//   }));
+  target.classList.add('active');
+  const targetName = keyWrapper[target.dataset.codeKey];
+  if (targetName.changeableRu || targetName.changeable) {
+    textArea.focus();
+    textArea.value += target.textContent;
+  }
+});
 
-//   textArea.value += key[17].textContent;
-// });
+keyContainer.addEventListener('mouseup', (event) => {
+  const target = event.target.closest('.key');
+  if (!target) return;
+  if (!keyContainer.contains(keyContainer)) return;
 
-key[17].addEventListener('click', (e) => {
-  textArea.focus();
-  textArea.value += key[17].textContent;
+  target.classList.remove('active');
+});
+
+keyContainer.addEventListener('mouseout', (event) => {
+  const target = event.target.closest('.key');
+  if (!target) return;
+  if (!keyContainer.contains(keyContainer)) return;
+
+  target.classList.remove('active');
 });

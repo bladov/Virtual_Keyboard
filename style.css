@@ -10,13 +10,23 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   max-width: 1240px;
   margin: 0 auto;
   height: 100vh;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.header {
+  margin-top: 30px;
+  margin-bottom: 70px;
+  color: #fafafa;
+}
+
+.text {
+  margin-bottom: 30px;
+  padding: 20px;
 }
 
 .Keyboard__wrapper {
@@ -47,6 +57,12 @@ body {
   background-color: rgb(228, 231, 75);
   box-shadow: 2px 1px 4px 2px;
   text-shadow: 1px 1px 2px white;
+}
+
+.key:hover {
+  border-color: #fafafa;
+  background-color: #fafafa;
+  /* transform: translate(1px, 1px); */
 }
 
 .key_large {
