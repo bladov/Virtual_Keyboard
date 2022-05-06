@@ -587,11 +587,11 @@ function runOnKeys(func, ...codes) {
 function swapLang() {
   Object.keys(keyWrapper).forEach((item) => {
     if (keyWrapper[item].changeableRu === true) {
-      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
-      keyWrapper[item].changeableRu = false;
-    } else if (keyWrapper[item].changeableRu === false) {
-      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyEn;
-      keyWrapper[item].changeableRu = true;
+      if (key[keyWrapper[item].position].innerHTML === keyWrapper[item].keyRu) {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyEn;
+      } else {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
+      }
     }
   });
 
@@ -602,16 +602,16 @@ function swapLang() {
   }
 }
 
-runOnKeys(() => swapLang(), 'ShiftLeft', 'AltLeft');
+runOnKeys(swapLang, 'ShiftLeft', 'AltLeft');
 
 if (localStorage.getItem('ru')) {
   Object.keys(keyWrapper).forEach((item) => {
     if (keyWrapper[item].changeableRu === true) {
-      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
-      keyWrapper[item].changeableRu = false;
-    } else if (keyWrapper[item].changeableRu === false) {
-      key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyEn;
-      keyWrapper[item].changeableRu = true;
+      if (key[keyWrapper[item].position].innerHTML === keyWrapper[item].keyRu) {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyEn;
+      } else {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyRu;
+      }
     }
   });
 }
@@ -745,4 +745,16 @@ keyContainer.addEventListener('mouseout', (event) => {
 
 textArea.addEventListener('blur', () => {
   textArea.focus();
+});
+
+key[42].addEventListener('click', () => {
+  Object.keys(keyWrapper).forEach((item) => {
+    if (keyWrapper[item].changeable === true) {
+      if (key[keyWrapper[item].position].innerHTML === keyWrapper[item].keyNormal) {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keySpec;
+      } else {
+        key[keyWrapper[item].position].innerHTML = keyWrapper[item].keyNormal;
+      }
+    }
+  });
 });
