@@ -3,7 +3,7 @@ const container = document.createElement('div');
 container.classList.add('container');
 
 container.innerHTML = `<header class="header">Virtual Keyboard</header>
-                      <textarea class="text" name="" id="text" cols="50" rows="10" autofocus></textarea>
+                      <textarea class="text" name="" id="text" cols="50" rows="10" autofocus maxlength="2000"></textarea>
                       <div class="language">Change language: Shift + Alt</div>
                       <div class="color">Change Color: <input type="color" name="color" id="color"></div>
                       <div class="Keyboard__wrapper">
@@ -504,6 +504,8 @@ function addPosition() {
 addPosition();
 
 document.addEventListener('keydown', (e) => {
+  const er = Object.keys(keyWrapper).find((item) => item === e.code);
+  if (!er) return;
   const btnKey = key[keyWrapper[e.code].position];
   btnKey.classList.add('active');
 
@@ -530,6 +532,8 @@ document.addEventListener('keydown', (e) => {
         }
       }
     });
+
+    btnKey.classList.toggle('caps_lock_key');
   }
 
   if (e.code === 'Tab') {
@@ -548,6 +552,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('keyup', (e) => {
+  const er = Object.keys(keyWrapper).find((item) => item === e.code);
+  if (!er) return;
   const btnKey = key[keyWrapper[e.code].position];
   btnKey.classList.remove('active');
 
@@ -710,6 +716,7 @@ keyContainer.addEventListener('mousedown', (event) => {
         }
       }
     });
+    target.classList.toggle('caps_lock_key');
   }
 
   if (atributeName === 'Enter') {
