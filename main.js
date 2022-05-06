@@ -560,8 +560,6 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-// change lng----------------------------------------------------------------==========
-
 function runOnKeys(func, ...codes) {
   const pressed = new Set();
 
@@ -615,9 +613,7 @@ if (localStorage.getItem('ru')) {
     }
   });
 }
-// change lng end---------------------------------------------------------------==========
 
-//  change color------------------------------------------------
 const changeColor = document.querySelector('#color');
 
 changeColor.addEventListener('input', () => {
@@ -626,7 +622,6 @@ changeColor.addEventListener('input', () => {
     key[pos].style.backgroundColor = changeColor.value;
   });
 });
-//  chenge color end ---------------------------------------
 
 keyContainer.addEventListener('mousedown', (event) => {
   const target = event.target.closest('.key');
